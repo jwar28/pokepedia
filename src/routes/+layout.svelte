@@ -34,7 +34,7 @@
 					<Header />
 				</div>
 
-				<div class="max-lg:hidden w-1/2">
+				<div class="max-lg:hidden w-full">
 					<Navigation />
 				</div>
 			</div>
