@@ -17,22 +17,22 @@
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header"
-		><AppBar background="bg-[#d6320c]" padding="p-1"
+		><AppBar background="bg-[#d6320c]" gap="0"
 			><svelte:fragment slot="lead">
-				<div class="flex items-center justify-center">
-					<button class="lg:hidden btn btn-sm" on:click={drawerOpen}>
-						<span>
-							<svg viewBox="0 0 100 80" class="fill-token w-4 h-4">
-								<rect width="100" height="20" />
-								<rect y="30" width="100" height="20" />
-								<rect y="60" width="100" height="20" />
-							</svg>
-						</span>
-					</button>
-				</div>
+				<button class="lg:hidden btn btn-sm" on:click={drawerOpen}>
+					<span>
+						<svg viewBox="0 0 100 80" class="fill-token w-8 h-8">
+							<rect width="100" height="20" />
+							<rect y="30" width="100" height="20" />
+							<rect y="60" width="100" height="20" />
+						</svg>
+					</span>
+				</button>
 			</svelte:fragment>
-			<div class="flex justify-between items-center max-lg:justify-center">
-				<Header />
+			<div class="flex justify-between items-center">
+				<div class="w-full flex max-lg:w-full max-lg:justify-center">
+					<Header />
+				</div>
 
 				<div class="max-lg:hidden w-1/2">
 					<Navigation />
