@@ -36,7 +36,7 @@
 				placeholder="Pokémon..."
 			/>
 
-			<Combobox bind:comboboxItems={pokemonRegions} comboboxValue={pokemonRegionSelection} />
+			<Combobox comboboxItems={pokemonRegions} comboboxValue={pokemonRegionSelection} />
 		</div>
 	</div>
 	<div class="bg-gray-300 w-full h-px absolute bottom-0" />

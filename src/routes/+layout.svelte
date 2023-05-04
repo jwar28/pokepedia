@@ -25,7 +25,7 @@
 			><svelte:fragment slot="lead">
 				<button class="lg:hidden btn btn-sm" on:click={drawerOpen}>
 					<span>
-						<svg viewBox="0 0 100 80" class="fill-token w-8 h-8">
+						<svg viewBox="0 0 100 80" class="fill-token w-6 h-6">
 							<rect width="100" height="20" />
 							<rect y="30" width="100" height="20" />
 							<rect y="60" width="100" height="20" />
