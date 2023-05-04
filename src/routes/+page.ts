@@ -1,23 +1,43 @@
 import type { PageLoad } from './$types';
+import type { Pokemon } from '$lib/types/pokemon';
 
-type IndexMonster = {
-	name: string;
-	url: string;
+import { MainClient } from 'pokenode-ts';
+
+export type IndexPokemon = Pokemon & {
+	id: string;
+	image: string;
 };
-export const load = (async ({ fetch }) => {
-	const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
-	const json = await response.json();
-	const monsters = json.results.map((monster: IndexMonster) => {
-		const splitUrl = monster.url.split('/');
-		const id = splitUrl[splitUrl.length - 2];
+
+const api = new MainClient();
+
+const getIdByUrl = (url: string) => {
+	const splitUrl = url.split('/');
+	return splitUrl[splitUrl.length - 2];
+};
+
+export const load = (async () => {
+	const pokemonsResponse = await api.pokemon.listPokemons(0, 150);
+
+	const pokemons = pokemonsResponse.results.map((pokemon: Pokemon) => {
+		const id = getIdByUrl(pokemon.url);
 		return {
-			name: monster.name,
-			url: monster.url,
+			name: pokemon.name,
+			url: pokemon.url,
+			id,
+			image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+		};
+	});
+
+	const regionsResponse = await api.location.listRegions();
+
+	const regions = regionsResponse.results.map((region) => {
+		const id = getIdByUrl(region.url);
+		return {
+			name: region.name,
+			url: region.url,
 			id
 		};
 	});
 
-	return {
-		monsters
-	};
+	return { pokemons, regions };
 }) satisfies PageLoad;

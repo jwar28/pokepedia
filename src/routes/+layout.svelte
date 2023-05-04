@@ -5,12 +5,16 @@
 
 	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
-	import Navigation from '$lib/Navigation/Navigation.svelte';
-	import Header from '../components/Header.svelte';
+	import Navigation from '$lib/components/Navigation.svelte';
+	import Header from '$lib/components/Header.svelte';
+	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
+	import { storePopup } from '@skeletonlabs/skeleton';
 
-	function drawerOpen(): void {
+	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+	const drawerOpen = (): void => {
 		drawerStore.open({});
-	}
+	};
 </script>
 
 <Drawer><Navigation /></Drawer>
@@ -38,20 +42,16 @@
 					<Navigation />
 				</div>
 			</div>
-		</AppBar></svelte:fragment
-	>
+		</AppBar>
+	</svelte:fragment>
 	<!-- Router Slot -->
-	<div class="bg-black w-full h-1 absolute" />
+	<div class="bg-black w-screen h-1 absolute z-40" />
 
-	<div class="flex h-full w-full justify-center items-center">
-		<div class="bg-white w-[95%] h-[90%] m-10 shadow-xl max-md:mx-2 max-md:mt-10">
-			<slot />
-		</div>
-	</div>
+	<slot />
 
-	<div class="bg-gray-300 w-full h-px absolute" />
 	<!--  footer  -->
 	<svelte:fragment slot="footer">
+		<div class="bg-gray-300 w-full h-px absolute" />
 		<div class="flex justify-center h-10">
 			<button>
 				<a href="https://github.com/jwar28" target="_blank"
