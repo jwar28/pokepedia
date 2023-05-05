@@ -2,9 +2,10 @@
 	export let pokemonId: string;
 	export let pokemonName: string;
 	export let pokemonSprite: string;
+	export let pokemon: any;
 </script>
 
-<a class="block card card-hover p-5 shadow-md" href="/">
+<a class="block card card-hover p-5 shadow-md" href={`/pokemon/${pokemon.id}`}>
 	<div class="flex justify-between items-center w-80 overflow-hidden">
 		<div class="w-full">
 			<p>#{pokemonId}</p>

@@ -17,7 +17,6 @@
 <input
 	class="input autocomplete w-80"
 	type="search"
-	name="autocomplete-search"
 	bind:value={searchString}
 	{placeholder}
 	use:popup={popupSettings}

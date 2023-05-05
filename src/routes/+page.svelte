@@ -8,8 +8,7 @@
 	export let data: PageData;
 
 	let pokemonNameSearch: string = '';
-	let pokemonRegionSelection: string = 'Region';
-	let pokemonTypeSelection: string = 'Tipo';
+	let pokemonRegionSelection: string = 'Kanto';
 
 	let pokemonNames: AutocompleteOption[] = data.pokemons.map((pokemon) => {
 		return { label: pokemon.name, value: pokemon.id };
@@ -20,8 +19,12 @@
 	};
 
 	let pokemonRegions = data.regions.map((region) => {
-		return { name: region.name, value: region.id };
+		return { name: region.name, value: region.name };
 	});
+
+	$: selectedGenerationId = data.regions.find(
+		(region) => region.name === pokemonRegionSelection
+	)?.id;
 </script>
 
 <!-- Header -->
@@ -36,6 +39,7 @@
 				placeholder="Pokémon..."
 			/>
 
+			<p class="flex items-center">Region:</p>
 			<Combobox comboboxItems={pokemonRegions} comboboxValue={pokemonRegionSelection} />
 		</div>
 	</div>
@@ -47,7 +51,12 @@
 	<div class="flex justify-center">
 		<div class="flex flex-row flex-wrap justify-evenly gap-9 w-[90%]">
 			{#each data.pokemons as pokemon}
-				<Pokecard pokemonId={pokemon.id} pokemonName={pokemon.name} pokemonSprite={pokemon.image} />
+				<Pokecard
+					pokemonId={pokemon.id}
+					pokemonName={pokemon.name}
+					pokemonSprite={pokemon.image}
+					{pokemon}
+				/>
 			{/each}
 		</div>
 	</div>
