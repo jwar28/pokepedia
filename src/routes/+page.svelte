@@ -36,9 +36,7 @@
 		return { name: region.name, value: region.name, id: region.id };
 	});
 
-	$: selectedGenerationId = data.regions.find(
-		(region) => region.name === pokemonRegionSelection
-	)?.id;
+	$: selectedGenerationId = regionList.find((region) => region.name === pokemonRegionSelection)?.id;
 </script>
 
 <!-- Header -->
@@ -63,7 +61,7 @@
 <!-- Pokemons -->
 <div class="m-5">
 	<div class="flex justify-center">
-		<div class="flex flex-row flex-wrap justify-evenly gap-9 w-[90%]">
+		<div class="flex flex-row flex-wrap justify-evenly gap-9 w-full">
 			{#each filteredPokemon as pokemon}
 				<Pokecard
 					pokemonId={pokemon.id}
