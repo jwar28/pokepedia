@@ -7,10 +7,24 @@
 
 	export let data: PageData;
 
+	let pokemonList = data.pokemons;
+	let regionList = data.regions;
+
 	let pokemonNameSearch: string = '';
+
 	let pokemonRegionSelection: string = 'Kanto';
 
-	let pokemonNames: AutocompleteOption[] = data.pokemons.map((pokemon) => {
+	let filteredPokemon: any;
+
+	$: {
+		filteredPokemon = pokemonNameSearch
+			? pokemonList.filter((pokemon) =>
+					pokemon.name.toLowerCase().includes(pokemonNameSearch.toLowerCase())
+			  )
+			: [...pokemonList];
+	}
+
+	let pokemonNames: AutocompleteOption[] = pokemonList.map((pokemon) => {
 		return { label: pokemon.name, value: pokemon.id };
 	});
 
@@ -18,8 +32,8 @@
 		pokemonNameSearch = event.detail.label;
 	};
 
-	let pokemonRegions = data.regions.map((region) => {
-		return { name: region.name, value: region.name };
+	let pokemonRegions = regionList.map((region) => {
+		return { name: region.name, value: region.name, id: region.id };
 	});
 
 	$: selectedGenerationId = data.regions.find(
@@ -34,13 +48,13 @@
 			<p class="flex items-center">Filtrar por:</p>
 			<Searchbar
 				autocompleteOptions={pokemonNames}
-				searchString={pokemonNameSearch}
+				bind:searchString={pokemonNameSearch}
 				onSelection={onPokemonSelection}
 				placeholder="Pokémon..."
 			/>
 
 			<p class="flex items-center">Region:</p>
-			<Combobox comboboxItems={pokemonRegions} comboboxValue={pokemonRegionSelection} />
+			<Combobox comboboxItems={pokemonRegions} bind:comboboxValue={pokemonRegionSelection} />
 		</div>
 	</div>
 	<div class="bg-gray-300 w-full h-px absolute bottom-0" />
@@ -50,7 +64,7 @@
 <div class="m-5">
 	<div class="flex justify-center">
 		<div class="flex flex-row flex-wrap justify-evenly gap-9 w-[90%]">
-			{#each data.pokemons as pokemon}
+			{#each filteredPokemon as pokemon}
 				<Pokecard
 					pokemonId={pokemon.id}
 					pokemonName={pokemon.name}
