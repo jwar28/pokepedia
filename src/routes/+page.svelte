@@ -1,20 +1,63 @@
-<script lang="ts">
+<script async script lang="ts">
 	import Pokecard from '$lib/components/Pokecard.svelte';
-	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
-	import type { PageData } from './$types';
 	import Searchbar from '$lib/components/Searchbar.svelte';
 	import Combobox from '$lib/components/Combobox.svelte';
+	import { MainClient } from 'pokenode-ts';
+	import type { Pokemon } from '$lib/types/pokemon';
+	import { onMount } from 'svelte';
+	import type { Region } from '$lib/types/region';
 
-	export let data: PageData;
+	type IndexPokemon = Pokemon & {
+		id: string;
+		image: string;
+	};
 
-	let pokemonList = data.pokemons;
-	let regionList = data.regions;
+	const api = new MainClient();
 
-	let pokemonNameSearch: string = '';
+	const getIdByUrl = (url: string) => {
+		const splitUrl = url.split('/');
+		return splitUrl[splitUrl.length - 2];
+	};
 
-	let pokemonRegionSelection: string = 'Kanto';
+	const getPokemonsByRegion = async (region: string): Promise<IndexPokemon[]> => {
+		const pokemonsResponse = await api.game.getGenerationById(parseInt(region) || 1);
 
+		const pokemons = pokemonsResponse.pokemon_species.map((pokemon: Pokemon) => {
+			const id = getIdByUrl(pokemon.url);
+			return {
+				name: pokemon.name[0].toUpperCase() + pokemon.name.slice(1),
+				url: pokemon.url,
+				id,
+				image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+			};
+		});
+
+		return pokemons.sort((poke1, poke2) => parseInt(poke1.id) - parseInt(poke2.id));
+	};
+
+	const getPokemonRegions = async (): Promise<Region[]> => {
+		const regionsResponse = await api.location.listRegions();
+
+		const regions = regionsResponse.results.map((region) => {
+			const id = getIdByUrl(region.url);
+			return {
+				name: region.name[0].toUpperCase() + region.name.slice(1),
+				url: region.url,
+				id
+			};
+		});
+		return regions;
+	};
+
+	let pokemonList: IndexPokemon[] = [];
+	let regionList: Region[] = [];
+	let pokemonRegionsNames: any = [];
+	let pokemonNameSearch = '';
+	let pokemonRegionSelection = 'Kanto';
 	let filteredPokemon: any;
+
+	$: selectedRegionId =
+		regionList.find((region) => region.name === pokemonRegionSelection)?.id || '1';
 
 	$: {
 		filteredPokemon = pokemonNameSearch
@@ -24,19 +67,24 @@
 			: [...pokemonList];
 	}
 
-	let pokemonNames: AutocompleteOption[] = pokemonList.map((pokemon) => {
-		return { label: pokemon.name, value: pokemon.id };
+	$: {
+		if (selectedRegionId) {
+			(async () => {
+				pokemonList = await getPokemonsByRegion(selectedRegionId);
+			})();
+		}
+	}
+
+	onMount(async () => {
+		const regions = await getPokemonRegions();
+		regionList = regions;
+		pokemonRegionsNames = regions.map((region) => {
+			return { name: region.name, value: region.name, id: region.id };
+		});
+
+		const pokemons = await getPokemonsByRegion(selectedRegionId);
+		pokemonList = pokemons;
 	});
-
-	let onPokemonSelection = (event: any): void => {
-		pokemonNameSearch = event.detail.label;
-	};
-
-	let pokemonRegions = regionList.map((region) => {
-		return { name: region.name, value: region.name, id: region.id };
-	});
-
-	$: selectedGenerationId = regionList.find((region) => region.name === pokemonRegionSelection)?.id;
 </script>
 
 <!-- Header -->
@@ -44,15 +92,13 @@
 	<div class="flex justify-center">
 		<div class="flex justify-center w-full max-lg:flex-wrap max-lg:gap-2 gap-10 z-40">
 			<p class="flex items-center">Filtrar por:</p>
-			<Searchbar
-				autocompleteOptions={pokemonNames}
-				bind:searchString={pokemonNameSearch}
-				onSelection={onPokemonSelection}
-				placeholder="Pokémon..."
-			/>
+			<Searchbar bind:searchString={pokemonNameSearch} placeholder="Pokémon..." />
 
 			<p class="flex items-center">Region:</p>
-			<Combobox comboboxItems={pokemonRegions} bind:comboboxValue={pokemonRegionSelection} />
+			<Combobox
+				bind:comboboxSelection={pokemonRegionSelection}
+				comboboxItems={pokemonRegionsNames}
+			/>
 		</div>
 	</div>
 	<div class="bg-gray-300 w-full h-px absolute bottom-0" />
