@@ -60,7 +60,7 @@
 	</div>
 
 	<!-- 2 -->
-	<div class="mx-5 flex flex-col justify-center gap-4 max-lg:mt-5">
+	<div class="md:mx-5 flex flex-col justify-center gap-4 max-lg:mt-5">
 		<!-- Basic data -->
 		<div class="card flex flex-col gap-3 p-5 shadow-md">
 			<p class="text-center">Datos basicos</p>
@@ -69,7 +69,7 @@
 
 			<div class="flex">
 				<p class="mr-4">Tipo:</p>
-				<div class="flex flex-wrap gap-5">
+				<div class="flex flex-wrap gap-1">
 					{#each pokemonTypes as type}
 						<p>'{type}'</p>
 					{/each}

@@ -21,7 +21,7 @@
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header"
-		><AppBar background="bg-[#d6320c]" gap="0"
+		><AppBar background="bg-[#d6320c]" gap="gap-0" padding="p-1"
 			><svelte:fragment slot="lead">
 				<button class="lg:hidden btn btn-sm" on:click={drawerOpen}>
 					<span>
@@ -43,9 +43,9 @@
 				</div>
 			</div>
 		</AppBar>
+		<div class="bg-black w-screen h-1 bottom-0" />
 	</svelte:fragment>
 	<!-- Router Slot -->
-	<div class="bg-black w-screen h-1 absolute z-40" />
 
 	<slot />
 
