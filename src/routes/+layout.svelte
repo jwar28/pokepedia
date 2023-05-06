@@ -9,6 +9,8 @@
 	import Header from '$lib/components/Header.svelte';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
+	import { navigating } from '$app/stores';
+	import Loading from '$lib/components/Loading.svelte';
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
@@ -47,7 +49,11 @@
 	</svelte:fragment>
 	<!-- Router Slot -->
 
-	<slot />
+	{#if $navigating}
+		<Loading />
+	{:else}
+		<slot />
+	{/if}
 
 	<!--  footer  -->
 	<svelte:fragment slot="footer">
