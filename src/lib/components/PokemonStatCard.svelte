@@ -65,13 +65,13 @@
 		<div class="card flex flex-col gap-3 p-5 shadow-md">
 			<p class="text-center">Datos basicos</p>
 			<p>Numero: #{pokemon.id}</p>
-			<p>Nombre: {pokemon.name}</p>
+			<p>Nombre: {pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}</p>
 
 			<div class="flex">
 				<p class="mr-4">Tipo:</p>
 				<div class="flex flex-wrap gap-1">
 					{#each pokemonTypes as type}
-						<p>'{type}'</p>
+						<p>'{type[0].toUpperCase() + type.slice(1)}'</p>
 					{/each}
 				</div>
 			</div>
