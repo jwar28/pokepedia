@@ -18,7 +18,7 @@
 	});
 </script>
 
-<!-- popupya -->
+<!-- popup -->
 <div class="card variant-filled-secondary p-4" data-popup="goBackPopup">
 	Volver
 	<div class="arrow variant-filled-secondary" />
