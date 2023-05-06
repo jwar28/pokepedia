@@ -88,7 +88,7 @@
 </script>
 
 <!-- Header -->
-<div class="sticky top-0 bg-[#e4e6ee] w-full z-30 py-2">
+<div class="sticky top-0 bg-[#e4e6ee] w-full z-30 py-2 shadow-md">
 	<div class="flex justify-center">
 		<div class="flex justify-center w-full max-lg:flex-wrap max-lg:gap-2 gap-10">
 			<p class="flex items-center">Filtrar por:</p>
