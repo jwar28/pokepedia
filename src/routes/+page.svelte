@@ -3,16 +3,19 @@
 	import Searchbar from '$lib/components/Searchbar.svelte';
 	import Combobox from '$lib/components/Combobox.svelte';
 	import type { IndexPokemon } from '$lib/types/pokemon';
-	import { onMount } from 'svelte';
 	import type { Region } from '$lib/types/region';
-	import { getPokemonRegions, getPokemonsByRegion } from '$lib/api/pokemonApi';
+	import { getPokemonsByRegion } from '$lib/api/pokemonApi';
+	import type { PageData } from './$types';
 
-	let pokemonList: IndexPokemon[] = [];
-	let regionList: Region[] = [];
-	let pokemonRegionsNames: any = [];
-	let pokemonNameSearch = '';
-	let pokemonRegionSelection = 'Kanto';
-	let filteredPokemon: any;
+	export let data: PageData;
+
+	let pokemonList: IndexPokemon[] = data.pokemonList;
+	let filteredPokemon: IndexPokemon[];
+	let pokemonNameSearch: string = '';
+
+	let regionList: Region[] = data.regionsList;
+	let pokemonRegionSelection: string = 'Kanto';
+	let regionComboboxOptions = data.regionComboboxOptions;
 
 	$: selectedRegionId =
 		regionList.find((region) => region.name === pokemonRegionSelection)?.id || '1';
@@ -32,17 +35,6 @@
 			})();
 		}
 	}
-
-	onMount(async () => {
-		const regions = await getPokemonRegions();
-		regionList = regions;
-		pokemonRegionsNames = regions.map((region) => {
-			return { name: region.name, value: region.name, id: region.id };
-		});
-
-		const pokemons = await getPokemonsByRegion(selectedRegionId);
-		pokemonList = pokemons;
-	});
 </script>
 
 <!-- Header -->
@@ -55,7 +47,7 @@
 			<p class="flex items-center">Region:</p>
 			<Combobox
 				bind:comboboxSelection={pokemonRegionSelection}
-				comboboxItems={pokemonRegionsNames}
+				comboboxItems={regionComboboxOptions}
 			/>
 		</div>
 	</div>
