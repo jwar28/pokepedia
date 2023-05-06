@@ -2,52 +2,10 @@
 	import Pokecard from '$lib/components/Pokecard.svelte';
 	import Searchbar from '$lib/components/Searchbar.svelte';
 	import Combobox from '$lib/components/Combobox.svelte';
-	import { MainClient } from 'pokenode-ts';
-	import type { Pokemon } from '$lib/types/pokemon';
+	import type { IndexPokemon } from '$lib/types/pokemon';
 	import { onMount } from 'svelte';
 	import type { Region } from '$lib/types/region';
-
-	type IndexPokemon = Pokemon & {
-		id: string;
-		image: string;
-	};
-
-	const api = new MainClient();
-
-	const getIdByUrl = (url: string) => {
-		const splitUrl = url.split('/');
-		return splitUrl[splitUrl.length - 2];
-	};
-
-	const getPokemonsByRegion = async (region: string): Promise<IndexPokemon[]> => {
-		const pokemonsResponse = await api.game.getGenerationById(parseInt(region) || 1);
-
-		const pokemons = pokemonsResponse.pokemon_species.map((pokemon: Pokemon) => {
-			const id = getIdByUrl(pokemon.url);
-			return {
-				name: pokemon.name[0].toUpperCase() + pokemon.name.slice(1),
-				url: pokemon.url,
-				id,
-				image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
-			};
-		});
-
-		return pokemons.sort((poke1, poke2) => parseInt(poke1.id) - parseInt(poke2.id));
-	};
-
-	const getPokemonRegions = async (): Promise<Region[]> => {
-		const regionsResponse = await api.location.listRegions();
-
-		const regions = regionsResponse.results.map((region) => {
-			const id = getIdByUrl(region.url);
-			return {
-				name: region.name[0].toUpperCase() + region.name.slice(1),
-				url: region.url,
-				id
-			};
-		});
-		return regions;
-	};
+	import { getPokemonRegions, getPokemonsByRegion } from '$lib/api/pokemonApi';
 
 	let pokemonList: IndexPokemon[] = [];
 	let regionList: Region[] = [];
