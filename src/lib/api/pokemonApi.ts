@@ -10,7 +10,7 @@ const getIdByUrl = (url: string) => {
 };
 
 export const getPokemonsByRegion = async (region: string): Promise<IndexPokemon[]> => {
-	const pokemonsResponse = await api.game.getGenerationById(parseInt(region) || 1);
+	const pokemonsResponse = await api.game.getGenerationById(parseInt(region));
 
 	const pokemons = pokemonsResponse.pokemon_species.map((pokemon: Pokemon) => {
 		const id = getIdByUrl(pokemon.url);

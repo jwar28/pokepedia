@@ -6,6 +6,7 @@
 	import type { Region } from '$lib/types/region';
 	import { getPokemonsByRegion } from '$lib/api/pokemonApi';
 	import type { PageData } from './$types';
+	import { selectedRegion, selectedRegionName } from '$lib/stores/pokemonStore';
 
 	export let data: PageData;
 
@@ -14,11 +15,14 @@
 	let pokemonNameSearch: string = '';
 
 	let regionList: Region[] = data.regionsList;
-	let pokemonRegionSelection: string = 'Kanto';
+	let regionName;
+	selectedRegionName.subscribe((value) => {
+		regionName = value;
+	});
+	let pokemonRegionSelection: string = regionName || 'Region';
 	let regionComboboxOptions = data.regionComboboxOptions;
 
-	$: selectedRegionId =
-		regionList.find((region) => region.name === pokemonRegionSelection)?.id || '1';
+	$: selectedRegionId = regionList.find((region) => region.name === pokemonRegionSelection)?.id;
 
 	$: {
 		filteredPokemon = pokemonNameSearch
@@ -32,6 +36,10 @@
 		if (selectedRegionId) {
 			(async () => {
 				pokemonList = await getPokemonsByRegion(selectedRegionId);
+				selectedRegion.set(selectedRegionId);
+				selectedRegionName.set(
+					regionList.find((region) => region.id === selectedRegionId)?.name || ''
+				);
 			})();
 		}
 	}
@@ -44,7 +52,6 @@
 			<p class="flex items-center">Filtrar por:</p>
 			<Searchbar bind:searchString={pokemonNameSearch} placeholder="Pokémon..." />
 
-			<p class="flex items-center">Region:</p>
 			<Combobox
 				bind:comboboxSelection={pokemonRegionSelection}
 				comboboxItems={regionComboboxOptions}
