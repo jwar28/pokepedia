@@ -9,10 +9,26 @@ const getIdByUrl = (url: string) => {
 	return splitUrl[splitUrl.length - 2];
 };
 
-export const getPokemonsByRegion = async (region: string): Promise<IndexPokemon[]> => {
-	const pokemonsResponse = await api.game.getGenerationById(parseInt(region));
+export const getAllPokemons = async (): Promise<IndexPokemon[]> => {
+	const pokemonReponse = await api.pokemon.listPokemons(0, 1007);
 
-	const pokemons = pokemonsResponse.pokemon_species.map((pokemon: Pokemon) => {
+	const pokemons = pokemonReponse.results.map((pokemon: Pokemon) => {
+		const id = getIdByUrl(pokemon.url);
+		return {
+			name: pokemon.name[0].toUpperCase() + pokemon.name.slice(1),
+			url: pokemon.url,
+			id,
+			image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+		};
+	});
+
+	return pokemons;
+};
+
+export const getPokemonsByRegion = async (region: string): Promise<IndexPokemon[]> => {
+	const pokemonResponse = await api.game.getGenerationById(parseInt(region));
+
+	const pokemons = pokemonResponse.pokemon_species.map((pokemon: Pokemon) => {
 		const id = getIdByUrl(pokemon.url);
 		return {
 			name: pokemon.name[0].toUpperCase() + pokemon.name.slice(1),

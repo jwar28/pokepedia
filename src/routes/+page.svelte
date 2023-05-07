@@ -4,9 +4,9 @@
 	import Combobox from '$lib/components/Combobox.svelte';
 	import type { IndexPokemon } from '$lib/types/pokemon';
 	import type { Region } from '$lib/types/region';
-	import { getPokemonsByRegion } from '$lib/api/pokemonApi';
+	import { getAllPokemons, getPokemonsByRegion } from '$lib/api/pokemonApi';
 	import type { PageData } from './$types';
-	import { selectedRegion, selectedRegionName } from '$lib/stores/pokemonStore';
+	import { selectedRegion, selectedRegionName } from '$lib/stores/regionStore';
 
 	export let data: PageData;
 
@@ -32,14 +32,23 @@
 			: [...pokemonList];
 	}
 
+	const setRegionStoresById = (selectedRegionId: string) => {
+		selectedRegion.set(selectedRegionId);
+		selectedRegionName.set(regionList.find((region) => region.id === selectedRegionId)?.name || '');
+	};
+
 	$: {
 		if (selectedRegionId) {
 			(async () => {
 				pokemonList = await getPokemonsByRegion(selectedRegionId);
-				selectedRegion.set(selectedRegionId);
-				selectedRegionName.set(
-					regionList.find((region) => region.id === selectedRegionId)?.name || ''
-				);
+				setRegionStoresById(selectedRegionId);
+			})();
+		}
+
+		if (selectedRegionId?.includes('0')) {
+			(async () => {
+				pokemonList = await getAllPokemons();
+				setRegionStoresById(selectedRegionId);
 			})();
 		}
 	}

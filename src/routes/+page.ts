@@ -1,5 +1,4 @@
-import { getPokemonRegions, getPokemonsByRegion } from '$lib/api/pokemonApi';
-import { selectedRegion } from '$lib/stores/pokemonStore';
+import { getAllPokemons, getPokemonRegions } from '$lib/api/pokemonApi';
 import type { PageLoad } from './$types';
 
 export const load = (async () => {
@@ -7,14 +6,9 @@ export const load = (async () => {
 	let regionsList = [];
 	let regionComboboxOptions = [];
 
-	let selectedRegionId;
-
-	selectedRegion.subscribe((value) => {
-		selectedRegionId = value;
-	});
-
-	pokemonList = await getPokemonsByRegion(selectedRegionId || '1');
+	pokemonList = await getAllPokemons();
 	regionsList = await getPokemonRegions();
+	regionsList.unshift({ name: 'Todos', id: '0', url: '' });
 
 	regionComboboxOptions = regionsList.map((region) => {
 		return { name: region.name, value: region.name, id: region.id };
