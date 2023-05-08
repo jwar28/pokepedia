@@ -7,7 +7,6 @@
 	import { getAllPokemons, getPokemonsByRegion } from '$lib/api/pokemonApi';
 	import type { PageData } from './$types';
 	import { selectedRegion, selectedRegionName } from '$lib/stores/regionStore';
-	import Loading from '$lib/components/Loading.svelte';
 
 	export let data: PageData;
 
@@ -20,7 +19,7 @@
 	selectedRegionName.subscribe((value) => {
 		regionName = value;
 	});
-	let pokemonRegionSelection: string = regionName || 'Region';
+	let pokemonRegionSelection: string = regionName || '- All -';
 	let regionComboboxOptions = data.regionComboboxOptions;
 
 	$: selectedRegionId = regionList.find((region) => region.name === pokemonRegionSelection)?.id;
@@ -59,9 +58,10 @@
 <div class="sticky top-0 bg-[#e4e6ee] w-full z-30 py-2 shadow-md">
 	<div class="flex justify-center">
 		<div class="flex justify-center w-full max-lg:flex-wrap max-lg:gap-2 gap-10">
-			<p class="flex items-center">Filtrar por:</p>
+			<p class="flex items-center">Filter:</p>
 			<Searchbar bind:searchString={pokemonNameSearch} placeholder="Pokémon..." />
 
+			<p class="flex items-center">Region:</p>
 			<Combobox
 				bind:comboboxSelection={pokemonRegionSelection}
 				comboboxItems={regionComboboxOptions}

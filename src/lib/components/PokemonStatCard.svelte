@@ -12,7 +12,7 @@
 	const pokemonTypes = pokemon.types.map((type) => type.type.name);
 	const pokemonStats = pokemon.stats.map((stats) => {
 		return {
-			name: stats.stat.name[0].toUpperCase() + stats.stat.name.slice(1),
+			name: stats.stat.name[0].toUpperCase() + stats.stat.name.slice(1).replace('-', ' '),
 			value: stats.base_stat.toString()
 		};
 	});
@@ -20,19 +20,17 @@
 
 <!-- popup -->
 <div class="card variant-filled-secondary p-4" data-popup="goBackPopup">
-	Volver
+	Go home
 	<div class="arrow variant-filled-secondary" />
 </div>
 
 <div
-	class="grid grid-cols-2 max-sm:grid-cols-1 card variant-ringed-primary h-full shadow-xl lg:pl-5 lg:py-5 max-sm:p-5 max-sm:my-5"
+	class="grid grid-cols-2 max-sm:grid-cols-1 card h-full shadow-xl lg:pl-5 lg:py-5 max-sm:p-5 max-sm:my-5"
 >
 	<!-- 1 -->
 	<div>
 		<!-- Image -->
-		<div
-			class="bg-[url('/background.svg')] bg-cover bg-blue-300 card variant-ringed-primary h-full shadow-md"
-		>
+		<div class="bg-[url('/background.svg')] bg-cover bg-blue-300 card h-full shadow-md">
 			<div class="flex flex-col h-full">
 				<div>
 					<!-- Go back button -->
@@ -66,24 +64,24 @@
 	<!-- 2 -->
 	<div class="md:mx-5 flex flex-col justify-center gap-4 max-lg:mt-5">
 		<!-- Basic data -->
-		<div class="card variant-ringed-primary flex flex-col gap-3 p-5 shadow-md">
-			<p class="text-center">Datos basicos</p>
-			<p>Numero: #{pokemon.id}</p>
-			<p>Nombre: {pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}</p>
+		<div class="card variant-ringed flex flex-col gap-3 p-5 shadow-md">
+			<p class="text-center">Basic data</p>
+			<p>Number: # {pokemon.id}</p>
+			<p>Name: {pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}</p>
 
 			<div class="flex">
-				<p class="mr-4 self-center">Tipo:</p>
-				<div class="flex flex-wrap gap-1">
+				<p class="mr-4 self-center">Types:</p>
+				<div class="flex flex-wrap gap-5">
 					{#each pokemonTypes as type}
-						<p class="chip variant-ghost-primary">{type[0].toUpperCase() + type.slice(1)}</p>
+						<p class="chip variant-ringed">{type[0].toUpperCase() + type.slice(1)}</p>
 					{/each}
 				</div>
 			</div>
 		</div>
 
 		<!-- Stats -->
-		<div class="card variant-ringed-primary flex flex-col gap-3 p-5 shadow-md">
-			<p class="text-center mt-2">Estadisticas</p>
+		<div class="card variant-ringed flex flex-col gap-3 p-5 shadow-md">
+			<p class="text-center mt-2">Stats</p>
 			{#each pokemonStats as stat}
 				<p>{stat.name}: {stat.value}</p>
 			{/each}

@@ -10,19 +10,16 @@
 		offset: 0,
 		limit: 5,
 		size: items.length,
-		amounts: [1, 2, 3, 5, 10]
+		amounts: [1, 2, 3, 4, 5]
 	};
 
-	$: paginatedSource = items.slice(
-		page.offset * page.limit, // start
-		page.offset * page.limit + page.limit // end
-	);
+	$: paginatedSource = items.slice(page.offset * page.limit, page.offset * page.limit + page.limit);
 </script>
 
-<div class="h-screen w-full">
+<div class="h-full w-full overflow-hidden">
 	<div class="m-5">
 		<div class="table-container">
-			<table class="table table-comfortable">
+			<table class="table table-comfortable shadow-md">
 				<thead>
 					<tr>
 						<th>Id</th>

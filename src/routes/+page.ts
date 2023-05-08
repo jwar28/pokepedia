@@ -8,7 +8,7 @@ export const load = (async () => {
 
 	pokemonList = await getAllPokemons();
 	regionsList = await getPokemonRegions();
-	regionsList.unshift({ name: 'Todos', id: '0', url: '' });
+	regionsList.unshift({ name: '- All - ', id: '0', url: '/' });
 
 	regionComboboxOptions = regionsList.map((region) => {
 		return { name: region.name, value: region.name, id: region.id };
