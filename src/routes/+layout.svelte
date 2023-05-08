@@ -23,7 +23,7 @@
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header"
-		><AppBar background="bg-[#d6320c]" gap="gap-0" padding="p-1"
+		><AppBar background="bg-primary-500" gap="gap-0" padding="p-1"
 			><svelte:fragment slot="lead">
 				<button class="lg:hidden btn btn-sm" on:click={drawerOpen}>
 					<span>
