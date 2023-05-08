@@ -7,6 +7,7 @@
 	import { getAllPokemons, getPokemonsByRegion } from '$lib/api/pokemonApi';
 	import type { PageData } from './$types';
 	import { selectedRegion, selectedRegionName } from '$lib/stores/regionStore';
+	import Loading from '$lib/components/Loading.svelte';
 
 	export let data: PageData;
 

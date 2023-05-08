@@ -1,6 +1,7 @@
+import type { CustomItem } from '$lib/types/item';
 import type { IndexPokemon, Pokemon } from '$lib/types/pokemon';
 import type { Region } from '$lib/types/region';
-import { MainClient } from 'pokenode-ts';
+import { MainClient, type Item, ItemAttributes } from 'pokenode-ts';
 
 const api = new MainClient();
 
@@ -24,6 +25,8 @@ export const getAllPokemons = async (): Promise<IndexPokemon[]> => {
 
 	return pokemons;
 };
+
+export const getPokemonById = async (id: string) => await api.pokemon.getPokemonById(parseInt(id));
 
 export const getPokemonsByRegion = async (region: string): Promise<IndexPokemon[]> => {
 	const pokemonResponse = await api.game.getGenerationById(parseInt(region));
@@ -55,4 +58,26 @@ export const getPokemonRegions = async (): Promise<Region[]> => {
 	regions.pop();
 
 	return regions;
+};
+
+const getItemByName = async (name: string): Promise<Item> => await api.item.getItemByName(name);
+
+export const getAllItems = async (): Promise<CustomItem[]> => {
+	const itemsResponse = await api.item.listItems();
+
+	const itemListPromises = itemsResponse.results.map((item) => {
+		return getItemByName(item.name);
+	});
+
+	const itemList: CustomItem[] = (await Promise.all(itemListPromises)).map((item) => {
+		return {
+			name: item.name[0].toUpperCase() + item.name.slice(1).replace('-', ' '),
+			id: item.id,
+			sprite: item.sprites.default,
+			category: item.category.name[0].toUpperCase() + item.category.name.slice(1).replace('-', ' '),
+			effect: item.effect_entries[0].effect.split(':')[1].trim()
+		};
+	});
+
+	return itemList;
 };

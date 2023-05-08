@@ -1,12 +1,10 @@
-import { MainClient } from 'pokenode-ts';
+import { getPokemonById } from '$lib/api/pokemonApi';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ params }) => {
-	const api = new MainClient();
-
 	const pokemonId = params.id;
 
-	const pokemon = await api.pokemon.getPokemonById(parseInt(pokemonId));
+	const pokemon = await getPokemonById(pokemonId);
 
 	return {
 		pokemon
