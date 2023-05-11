@@ -1,16 +1,15 @@
 <script lang="ts">
-	export let pokemonId: string;
-	export let pokemonName: string;
-	export let pokemonSprite: string;
-	export let pokemon: any;
+	import type { IndexPokemon } from '$lib/types/pokemon';
+
+	export let pokemon: IndexPokemon;
 </script>
 
 <a class="block card card-hover p-5 shadow-md" href={`/pokemon/${pokemon.id}`}>
 	<div class="flex justify-between items-center w-80 overflow-hidden">
 		<div class="w-full">
-			<p>#{pokemonId}</p>
-			<p>{pokemonName}</p>
+			<p>#{pokemon.id}</p>
+			<p>{pokemon.name}</p>
 		</div>
-		<img src={pokemonSprite} alt={pokemonName} class="h-40 w-40" />
+		<img src={pokemon.image} alt={pokemon.name} class="h-40 w-40" />
 	</div>
 </a>

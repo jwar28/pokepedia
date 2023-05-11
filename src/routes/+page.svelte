@@ -77,12 +77,7 @@
 	<div class="flex justify-center">
 		<div class="flex flex-row flex-wrap justify-evenly gap-9 w-full">
 			{#each filteredPokemon as pokemon}
-				<Pokecard
-					pokemonId={pokemon.id}
-					pokemonName={pokemon.name}
-					pokemonSprite={pokemon.image}
-					{pokemon}
-				/>
+				<Pokecard {pokemon} />
 			{/each}
 		</div>
 	</div>
