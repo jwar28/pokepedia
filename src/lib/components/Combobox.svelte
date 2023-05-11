@@ -15,6 +15,7 @@
 
 	export let comboboxSelection: string;
 	export let comboboxItems: Item[];
+	export let comboboxName: string;
 </script>
 
 <button class="btn input w-48" use:popup={popupCombobox}>
@@ -25,7 +26,7 @@
 	<!-- Listbox -->
 	<ListBox rounded="rounded-none z-40 p-4">
 		{#each comboboxItems as item}
-			<ListBoxItem bind:group={comboboxSelection} name="small" value={item.value}>
+			<ListBoxItem bind:group={comboboxSelection} bind:name={comboboxName} value={item.value}>
 				{item.name}
 			</ListBoxItem>
 		{/each}

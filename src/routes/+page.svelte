@@ -64,6 +64,7 @@
 			<p class="flex items-center">Region:</p>
 			<Combobox
 				bind:comboboxSelection={pokemonRegionSelection}
+				comboboxName="RegionCombobox"
 				comboboxItems={regionComboboxOptions}
 			/>
 		</div>
