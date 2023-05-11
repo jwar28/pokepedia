@@ -1,4 +1,8 @@
 import type { IndexPokemon } from '$lib/types/pokemon';
-import { writable, type Writable } from 'svelte/store';
+import { localStorageStore } from '@skeletonlabs/skeleton';
+import type { Writable } from 'svelte/store';
 
-export const randomPokemonListGenerated: Writable<IndexPokemon[]> = writable();
+export const randomPokemonListGenerated: Writable<IndexPokemon[]> = localStorageStore(
+	'pokemonList',
+	[]
+);

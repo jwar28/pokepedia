@@ -10,12 +10,7 @@
 
 	export let data: PageData;
 
-	let selectedRegion;
-	randomizerSelectedRegionName.subscribe((value) => {
-		selectedRegion = value;
-	});
-
-	let pokemonRegionSelection: string = selectedRegion || 'Open me';
+	let pokemonRegionSelection: string = $randomizerSelectedRegionName || 'Open me';
 	let regionComboboxOptions = data.regionComboboxOptions;
 
 	let randomPokemonListStore;
