@@ -38,7 +38,7 @@
 	};
 
 	$: {
-		if (selectedRegionId) {
+		if (selectedRegionId && !selectedRegionId?.includes('0')) {
 			(async () => {
 				pokemonList = await getPokemonsByRegion(selectedRegionId);
 				setRegionStoresById(selectedRegionId);

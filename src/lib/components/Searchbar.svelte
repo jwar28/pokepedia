@@ -3,4 +3,4 @@
 	export let placeholder: string;
 </script>
 
-<input class="input autocomplete w-80" type="search" bind:value={searchString} {placeholder} />
+<input class="input w-80 py-3" type="search" bind:value={searchString} {placeholder} />

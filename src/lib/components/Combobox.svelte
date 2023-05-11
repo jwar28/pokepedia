@@ -18,13 +18,13 @@
 	export let comboboxName: string;
 </script>
 
-<button class="btn input w-48" use:popup={popupCombobox}>
+<button class="btn variant-ringed-primary w-fit" use:popup={popupCombobox}>
 	{comboboxSelection}
 </button>
 
-<div class="card w-48 shadow-xl" data-popup="combobox">
+<div class="card w-48 shadow-xl overflow-scroll h-96" data-popup="combobox">
 	<!-- Listbox -->
-	<ListBox rounded="rounded-none z-40 p-4">
+	<ListBox rounded="rounded-none">
 		{#each comboboxItems as item}
 			<ListBoxItem bind:group={comboboxSelection} bind:name={comboboxName} value={item.value}>
 				{item.name}
