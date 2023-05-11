@@ -86,9 +86,9 @@
 			<Loading />
 		</div>
 	{:else if randomPokemonList.length === 0}
-		<div>
+		<div class="flex flex-col justify-center items-center">
 			<p class="text-center mb-5">No random pokemons generated.</p>
-			<img src="/loading-random.gif" alt="" />
+			<img src="/loading-random.gif" alt="" class="max-sm:p-5" />
 		</div>
 	{:else}
 		<div class="flex justify-center items-center mt-14 max-sm:mt-32 max-sm:mb-5">

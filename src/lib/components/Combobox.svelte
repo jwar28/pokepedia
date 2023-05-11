@@ -22,7 +22,7 @@
 	{comboboxSelection}
 </button>
 
-<div class="card w-48 shadow-xl overflow-scroll h-96" data-popup="combobox">
+<div class="card w-48 shadow-xl overflow-scroll h-80" data-popup="combobox">
 	<!-- Listbox -->
 	<ListBox rounded="rounded-none">
 		{#each comboboxItems as item}
