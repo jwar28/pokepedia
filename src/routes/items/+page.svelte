@@ -10,36 +10,33 @@
 		offset: 0,
 		limit: 5,
 		size: items.length,
-		amounts: [1, 2, 3, 4, 5]
+		amounts: [1, 2, 3, 4, 5, 10]
 	};
 
 	$: paginatedSource = items.slice(page.offset * page.limit, page.offset * page.limit + page.limit);
 </script>
 
-<div class="h-full w-full overflow-hidden">
-	<div class="m-5">
+<div class="h-full w-full flex justify-center items-center overflow-hidden p-5">
+	<div class="mx-5 md:w-[75%]">
 		<div class="table-container">
-			<table class="table table-comfortable shadow-md">
+			<table class="table table-compact shadow-md">
 				<thead>
 					<tr>
-						<th>Id</th>
-						<th>Name</th>
-						<th>Category</th>
-						<th>Effect</th>
+						<th class="w-72">Name</th>
+						<th class="w-72 max-sm:table-cell-fit">Category</th>
 					</tr>
 				</thead>
 				<tbody>
 					{#each paginatedSource as item}
 						<tr>
-							<td>{item.id}</td>
 							<td>
-								<div class="flex items-center gap-3">
+								<div class="flex items-center max-sm:justify-center gap-1 flex-wrap w-fit">
+									<span>#{item.id}</span>
 									<img src={item.sprite} alt="sprite" />
 									<span>{item.name}</span>
 								</div>
 							</td>
-							<td>{item.category}</td>
-							<td>{item.effect}</td>
+							<td class="max-sm:table-cell-fit">{item.category}</td>
 						</tr>
 					{/each}
 				</tbody>

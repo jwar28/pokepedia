@@ -1,7 +1,7 @@
 import type { CustomItem } from '$lib/types/item';
 import type { IndexPokemon, Pokemon } from '$lib/types/pokemon';
 import type { Region } from '$lib/types/region';
-import { MainClient, type Item, ItemAttributes } from 'pokenode-ts';
+import { MainClient, type Item } from 'pokenode-ts';
 
 const api = new MainClient();
 
@@ -63,7 +63,7 @@ export const getPokemonRegions = async (): Promise<Region[]> => {
 const getItemByName = async (name: string): Promise<Item> => await api.item.getItemByName(name);
 
 export const getAllItems = async (): Promise<CustomItem[]> => {
-	const itemsResponse = await api.item.listItems();
+	const itemsResponse = await api.item.listItems(0, 175);
 
 	const itemListPromises = itemsResponse.results.map((item) => {
 		return getItemByName(item.name);
@@ -74,8 +74,7 @@ export const getAllItems = async (): Promise<CustomItem[]> => {
 			name: item.name[0].toUpperCase() + item.name.slice(1).replace('-', ' '),
 			id: item.id,
 			sprite: item.sprites.default,
-			category: item.category.name[0].toUpperCase() + item.category.name.slice(1).replace('-', ' '),
-			effect: item.effect_entries[0].effect.split(':')[1].trim()
+			category: item.category.name[0].toUpperCase() + item.category.name.slice(1).replace('-', ' ')
 		};
 	});
 
