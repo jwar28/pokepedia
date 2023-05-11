@@ -7,6 +7,6 @@
 	>
 		<li><a href="/">Home</a></li>
 		<li><a href="/items">Items</a></li>
-		<li><a href="/">Randomizer</a></li>
+		<li><a href="/randomizer">Randomizer</a></li>
 	</ul>
 </nav>

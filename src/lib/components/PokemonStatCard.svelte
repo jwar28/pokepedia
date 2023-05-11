@@ -20,7 +20,7 @@
 
 <!-- popup -->
 <div class="card variant-filled-secondary p-4" data-popup="goBackPopup">
-	Go home
+	Go back
 	<div class="arrow variant-filled-secondary" />
 </div>
 

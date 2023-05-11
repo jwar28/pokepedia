@@ -67,7 +67,6 @@
 			/>
 		</div>
 	</div>
-	<div class="bg-gray-300 w-full h-px absolute bottom-0" />
 </div>
 
 <div class="w-full flex justify-center items-center overflow-hidden">

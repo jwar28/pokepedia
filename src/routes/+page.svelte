@@ -69,7 +69,6 @@
 			/>
 		</div>
 	</div>
-	<div class="bg-gray-300 w-full h-px absolute bottom-0" />
 </div>
 
 <!-- Pokemons -->
