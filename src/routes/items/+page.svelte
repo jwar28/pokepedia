@@ -12,7 +12,7 @@
 	let itemSearch: string = '';
 	let filteredItem: CustomItem[] = [];
 
-	let selectedItem: string = 'All';
+	let selectedItem: string = '- All -';
 
 	let itemCategories = Array.from(new Set(itemsList.map((item) => item.category))).map(
 		(category) => ({
@@ -22,8 +22,8 @@
 	);
 
 	itemCategories.unshift({
-		name: 'All',
-		value: 'All'
+		name: '- All -',
+		value: '- All -'
 	});
 
 	let page = {
@@ -38,7 +38,7 @@
 			? itemsList.filter((item) => item.name.toLowerCase().includes(itemSearch.toLowerCase()))
 			: [...itemsList];
 
-		if (selectedItem && selectedItem !== 'All') {
+		if (selectedItem && selectedItem !== '- All -') {
 			filteredItem = filteredItem.filter((item) =>
 				item.category.toLowerCase().includes(selectedItem.toLowerCase())
 			);
