@@ -74,7 +74,8 @@ export const getAllItems = async (): Promise<CustomItem[]> => {
 			name: item.name[0].toUpperCase() + item.name.slice(1).replace('-', ' '),
 			id: item.id,
 			sprite: item.sprites.default,
-			category: item.category.name[0].toUpperCase() + item.category.name.slice(1).replace('-', ' ')
+			category: item.category.name[0].toUpperCase() + item.category.name.slice(1).replace('-', ' '),
+			effect: item.effect_entries[0].effect.split(':')[1]
 		};
 	});
 

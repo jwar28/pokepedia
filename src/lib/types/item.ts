@@ -3,4 +3,5 @@ export type CustomItem = {
 	id: number;
 	sprite: string;
 	category: string;
+	effect: string;
 };

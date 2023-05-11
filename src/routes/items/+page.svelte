@@ -24,19 +24,25 @@
 					<tr>
 						<th class="w-72">Name</th>
 						<th class="w-72 max-sm:table-cell-fit">Category</th>
+						<th class="max-sm:hidden">Effect</th>
 					</tr>
 				</thead>
 				<tbody>
 					{#each paginatedSource as item}
 						<tr>
 							<td>
-								<div class="flex items-center max-sm:justify-center gap-1 flex-wrap w-fit">
+								<div class="flex items-center gap-1 flex-wrap w-fit">
 									<span>#{item.id}</span>
 									<img src={item.sprite} alt="sprite" />
 									<span>{item.name}</span>
 								</div>
 							</td>
 							<td class="max-sm:table-cell-fit">{item.category}</td>
+							{#if item.effect}
+								<td class="max-sm:hidden">{item.effect}</td>
+							{:else}
+								<td class="max-sm:hidden">No info</td>
+							{/if}
 						</tr>
 					{/each}
 				</tbody>
