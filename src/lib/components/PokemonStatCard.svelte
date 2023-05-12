@@ -24,15 +24,13 @@
 	<div class="arrow variant-filled-secondary" />
 </div>
 
-<div
-	class="grid grid-cols-2 max-sm:grid-cols-1 card h-full shadow-xl lg:pl-5 lg:py-5 max-sm:p-5 max-sm:my-5"
->
+<div class="grid grid-cols-2 max-sm:grid-cols-1 card h-full shadow-xl lg:pl-5 lg:py-5 max-sm:p-5">
 	<!-- 1 -->
 	<div>
 		<!-- Image -->
 		<div class="bg-[url('/background.svg')] bg-cover bg-blue-300 card h-full shadow-md">
 			<div class="flex flex-col h-full">
-				<div>
+				<div class="flex justify-between items-center">
 					<!-- Go back button -->
 					<button
 						type="button"

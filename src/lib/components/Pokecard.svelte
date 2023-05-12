@@ -6,7 +6,7 @@
 
 <a class="block card card-hover p-5 shadow-md" href={`/pokemon/${pokemon.id}`}>
 	<div class="flex justify-between items-center w-80 overflow-hidden">
-		<div class="w-full">
+		<div class="w-full flex flex-col gap-1">
 			<p>#{pokemon.id}</p>
 			<p>{pokemon.name}</p>
 		</div>
