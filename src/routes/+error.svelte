@@ -9,7 +9,7 @@
 
 <!-- popup -->
 <div class="card variant-filled-secondary p-4" data-popup="goBackPopup">
-	Volver al inicio
+	Go home
 	<div class="arrow variant-filled-secondary" />
 </div>
 
@@ -43,7 +43,7 @@
 					<img src="/404.png" alt="" class="md:w-56" />
 					<div class="flex flex-col max-sm:text-center max-sm:mt-5">
 						<h1>404</h1>
-						<p>Pagina no encontrada</p>
+						<p>Page not found</p>
 					</div>
 				</div>
 			</div>
