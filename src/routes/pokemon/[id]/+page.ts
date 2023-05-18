@@ -7,6 +7,7 @@ export const load = (async ({ params }) => {
 	const pokemon = await getPokemonById(pokemonId);
 
 	return {
-		pokemon
+		pokemon,
+		title: `${pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}`
 	};
 }) satisfies PageLoad;

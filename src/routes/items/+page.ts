@@ -3,5 +3,5 @@ import type { PageLoad } from './$types';
 
 export const load = (async () => {
 	const items = await getAllItems();
-	return { items };
+	return { items, title: 'Items' };
 }) satisfies PageLoad;

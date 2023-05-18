@@ -1,9 +1,9 @@
 import type { CustomItem } from '$lib/types/item';
 import type { IndexPokemon, Pokemon } from '$lib/types/pokemon';
 import type { Region } from '$lib/types/region';
-import { MainClient, type Item } from 'pokenode-ts';
+import { MainClient, type Item, type NamedAPIResourceList, type Generation } from 'pokenode-ts';
 
-const api = new MainClient();
+const mainClient = new MainClient();
 
 const getIdByUrl = (url: string) => {
 	const splitUrl = url.split('/');
@@ -11,73 +11,116 @@ const getIdByUrl = (url: string) => {
 };
 
 export const getAllPokemons = async (): Promise<IndexPokemon[]> => {
-	const pokemonReponse = await api.pokemon.listPokemons(0, 1007);
+	let pokemonReponse: NamedAPIResourceList;
+	let pokemons: {
+		name: string;
+		url: string;
+		id: string;
+		image: string;
+	}[] = [];
 
-	const pokemons = pokemonReponse.results.map((pokemon: Pokemon) => {
-		const id = getIdByUrl(pokemon.url);
-		return {
-			name: pokemon.name[0].toUpperCase() + pokemon.name.slice(1),
-			url: pokemon.url,
-			id,
-			image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
-		};
-	});
+	try {
+		pokemonReponse = await mainClient.pokemon.listPokemons(0, 1007);
+		pokemons = pokemonReponse.results.map((pokemon: Pokemon) => {
+			const id = getIdByUrl(pokemon.url);
+			return {
+				name: pokemon.name[0].toUpperCase() + pokemon.name.slice(1),
+				url: pokemon.url,
+				id,
+				image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+			};
+		});
+	} catch (err) {
+		console.log(err);
+	}
 
 	return pokemons;
 };
 
-export const getPokemonById = async (id: string) => await api.pokemon.getPokemonById(parseInt(id));
+export const getPokemonById = async (id: string) =>
+	await mainClient.pokemon.getPokemonById(parseInt(id));
 
 export const getPokemonsByRegion = async (region: string): Promise<IndexPokemon[]> => {
-	const pokemonResponse = await api.game.getGenerationById(parseInt(region));
+	let pokemonResponse: Generation;
+	let pokemons: {
+		name: string;
+		url: string;
+		id: string;
+		image: string;
+	}[] = [];
 
-	const pokemons = pokemonResponse.pokemon_species.map((pokemon: Pokemon) => {
-		const id = getIdByUrl(pokemon.url);
-		return {
-			name: pokemon.name[0].toUpperCase() + pokemon.name.slice(1),
-			url: pokemon.url,
-			id,
-			image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
-		};
-	});
+	try {
+		pokemonResponse = await mainClient.game.getGenerationById(parseInt(region));
+		pokemons = pokemonResponse.pokemon_species.map((pokemon: Pokemon) => {
+			const id = getIdByUrl(pokemon.url);
+			return {
+				name: pokemon.name[0].toUpperCase() + pokemon.name.slice(1),
+				url: pokemon.url,
+				id,
+				image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+			};
+		});
+	} catch (err) {
+		console.log(err);
+	}
 
 	return pokemons.sort((poke1, poke2) => parseInt(poke1.id) - parseInt(poke2.id));
 };
 
 export const getPokemonRegions = async (): Promise<Region[]> => {
-	const regionsResponse = await api.location.listRegions();
+	let regionsResponse: NamedAPIResourceList;
+	let regions: {
+		name: string;
+		url: string;
+		id: string;
+	}[] = [];
 
-	const regions = regionsResponse.results.map((region) => {
-		const id = getIdByUrl(region.url);
-		return {
-			name: region.name[0].toUpperCase() + region.name.slice(1),
-			url: region.url,
-			id
-		};
-	});
-	regions.pop();
+	try {
+		regionsResponse = await mainClient.location.listRegions();
+		regions = regionsResponse.results.map((region) => {
+			const id = getIdByUrl(region.url);
+			return {
+				name: region.name[0].toUpperCase() + region.name.slice(1),
+				url: region.url,
+				id
+			};
+		});
+		regions.pop();
+	} catch (err) {
+		console.log(err);
+	}
 
 	return regions;
 };
 
-const getItemByName = async (name: string): Promise<Item> => await api.item.getItemByName(name);
+const getItemByName = async (name: string): Promise<Item> =>
+	await mainClient.item.getItemByName(name);
 
 export const getAllItems = async (): Promise<CustomItem[]> => {
-	const itemsResponse = await api.item.listItems(0, 175);
+	let itemsResponse: NamedAPIResourceList;
+	let itemListPromises: Promise<Item>[] = [];
+	let itemList: CustomItem[] = [];
 
-	const itemListPromises = itemsResponse.results.map((item) => {
-		return getItemByName(item.name);
-	});
+	try {
+		itemsResponse = await mainClient.item.listItems(0, 20);
 
-	const itemList: CustomItem[] = (await Promise.all(itemListPromises)).map((item) => {
-		return {
-			name: item.name[0].toUpperCase() + item.name.slice(1).replace('-', ' '),
-			id: item.id,
-			sprite: item.sprites.default,
-			category: item.category.name[0].toUpperCase() + item.category.name.slice(1).replace('-', ' '),
-			effect: item.effect_entries[0].effect.split(':')[1]
-		};
-	});
+		itemListPromises = itemsResponse.results.map((item) => {
+			return getItemByName(item.name);
+		});
+
+		itemList = (await Promise.all(itemListPromises)).map((item) => {
+			return {
+				name: item.name[0].toUpperCase() + item.name.slice(1).replace('-', ' '),
+				id: item.id,
+				sprite: item.sprites.default,
+				category:
+					item.category.name[0].toUpperCase() + item.category.name.slice(1).replace('-', ' '),
+				effect: item.effect_entries[0].effect.split(':')[1]
+			};
+		});
+	} catch (err) {
+		console.log(err);
+	}
 
 	return itemList;
 };

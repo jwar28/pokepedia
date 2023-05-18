@@ -17,6 +17,7 @@ export const load = (async () => {
 	return {
 		pokemonList,
 		regionsList,
-		regionComboboxOptions
+		regionComboboxOptions,
+		title: 'Home'
 	};
 }) satisfies PageLoad;

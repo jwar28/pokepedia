@@ -13,6 +13,7 @@ export const load = (async () => {
 
 	return {
 		regionsList,
-		regionComboboxOptions
+		regionComboboxOptions,
+		title: 'Randomizer'
 	};
 }) satisfies PageLoad;

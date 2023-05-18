@@ -9,7 +9,7 @@
 	import Header from '$lib/components/Header.svelte';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
-	import { navigating } from '$app/stores';
+	import { navigating, page } from '$app/stores';
 	import Loading from '$lib/components/Loading.svelte';
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
@@ -18,6 +18,16 @@
 		drawerStore.open({});
 	};
 </script>
+
+<svelte:head>
+	<title>Poképedia - {$page.data.title}</title>
+	<meta
+		title="Poképedia"
+		name="Poképedia"
+		content="Explore the fascinating world of Pokémon with Pokepédia! Discover detailed information and filter pokémones. Challenge your skills with random teams."
+		lang="en"
+	/>
+</svelte:head>
 
 <Drawer><Navigation /></Drawer>
 <!-- App Shell -->
