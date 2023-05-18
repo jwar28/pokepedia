@@ -23,10 +23,11 @@
 	<title>Poképedia - {$page.data.title}</title>
 	<meta
 		title="Poképedia"
-		name="Poképedia"
+		name="description"
 		content="Explore the fascinating world of Pokémon with Pokepédia! Discover detailed information and filter pokémones. Challenge your skills with random teams."
 		lang="en"
 	/>
+	<meta />
 </svelte:head>
 
 <Drawer><Navigation /></Drawer>
